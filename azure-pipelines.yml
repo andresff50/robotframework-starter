@@ -9,7 +9,6 @@ trigger:
 stages:
 - stage: CI_Checks
   jobs:
-  
   - job: 'Test'
     pool:
       vmImage: 'windows-latest'
@@ -21,14 +20,13 @@ stages:
 
     steps:
     - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '$(python.version)'
-      architecture: 'x64'
+      inputs:
+        versionSpec: '$(python.version)'
+        architecture: 'x64'
 
     - script: |
         python -m pip install --upgrade pip
         pip install robotframework robotframework-seleniumlibrary chromedriver-autoinstaller
-        yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}, new-line-at-end-of-file: disable, new-lines: disable}}" .
       displayName: 'Install dependencies'
 
     - powershell: robot -d Results -v url:https://opensource-demo.orangehrmlive.com -v userName:Admin -v password:admin123  .\Test\Login.robot
